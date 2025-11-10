@@ -1,70 +1,48 @@
-@import "tailwindcss";
+/* src/index.css */
+@import "tailwindcss"; /* v4 single import */
 
+/* Tell Tailwind which color tokens exist. These are *design tokens*. */
+@theme {
+  --color-primary: rgb(var(--primary-rgb));
+  --color-accent: rgb(var(--accent-rgb));
+  --color-success: rgb(var(--success-rgb));
+  --color-warn: rgb(var(--warn-rgb));
+  --color-error: rgb(var(--error-rgb));
+
+  --color-surface: rgb(var(--surface-rgb));
+  --color-border: rgb(var(--border-rgb));
+  --color-text: rgb(var(--text-rgb));
+  --color-text-muted: rgb(var(--text-muted-rgb));
+}
+
+/* Light values (runtime variables you’ll flip at runtime) */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  --primary-rgb: 37 99 235; /* #2563EB  */
+  --accent-rgb: 139 92 246; /* #8B5CF6  */
+  --success-rgb: 16 185 129; /* #10B981  */
+  --warn-rgb: 245 158 11; /* #F59E0B  */
+  --error-rgb: 239 68 68; /* #EF4444  */
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --surface-rgb: 249 250 251; /* #F9FAFB  */
+  --border-rgb: 229 231 235; /* #E5E7EB  */
+  --text-rgb: 17 24 39; /* #111827  */
+  --text-muted-rgb: 107 114 128; /* #6B7280  */
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+  color-scheme: light;
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
+/* Dark overrides (toggle with <html class="dark">) */
+:root.dark {
+  --primary-rgb: 59 130 246; /* #3B82F6  */
+  --accent-rgb: 167 139 250; /* #A78BFA  */
+  --success-rgb: 52 211 153; /* #34D399  */
+  --warn-rgb: 251 191 36; /* #FBBF24  */
+  --error-rgb: 248 113 113; /* #F87171  */
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
+  --surface-rgb: 17 24 39; /* #111827  */
+  --border-rgb: 55 65 81; /* #374151  */
+  --text-rgb: 243 244 246; /* #F3F4F6  */
+  --text-muted-rgb: 156 163 175; /* #9CA3AF  */
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+  color-scheme: dark;
 }

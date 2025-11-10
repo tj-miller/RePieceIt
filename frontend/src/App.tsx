@@ -1,35 +1,44 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import React, { useState } from "react";
 
-function App() {
-  const [count, setCount] = useState(0);
+export default function ThemeDemo() {
+  const [dark, setDark] = useState(false);
+
+  const toggleTheme = () => {
+    document.documentElement.classList.toggle("dark");
+    setDark(!dark);
+  };
 
   return (
-    <>
-      <div className="flex justify-center">
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+    <div className="min-h-screen bg-surface text-text flex flex-col items-center justify-center transition-colors duration-300">
+      <h1 className="text-3xl font-bold mb-6">Tailwind Theming Demo</h1>
+      <div className="flex gap-3">
+        <button className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/80">
+          Primary
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+        <button className="bg-accent text-white px-4 py-2 rounded-lg hover:bg-accent/80">
+          Accent
+        </button>
+        <button className="bg-success text-white px-4 py-2 rounded-lg hover:bg-success/80">
+          Success
+        </button>
+        <button className="bg-warn text-white px-4 py-2 rounded-lg hover:bg-warn/80">
+          Warning
+        </button>
+        <button className="bg-error text-white px-4 py-2 rounded-lg hover:bg-error/80">
+          Error
+        </button>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+
+      <p className="text-text-muted mt-6">
+        The current theme is <strong>{dark ? "Dark" : "Light"}</strong>.
       </p>
-    </>
+
+      <button
+        onClick={toggleTheme}
+        className="mt-4 px-3 py-2 border border-border rounded-md"
+      >
+        Toggle Theme
+      </button>
+    </div>
   );
 }
-
-export default App;
