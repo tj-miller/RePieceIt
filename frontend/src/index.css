@@ -1,5 +1,6 @@
 /* src/index.css */
 @import "tailwindcss"; /* v4 single import */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300..800&family=JetBrains+Mono:wght@300..800&family=Playfair+Display:wght@400..800&display=swap");
 
 /* Tell Tailwind which color tokens exist. These are *design tokens*. */
 @theme {
@@ -13,6 +14,77 @@
   --color-border: rgb(var(--border-rgb));
   --color-text: rgb(var(--text-rgb));
   --color-text-muted: rgb(var(--text-muted-rgb));
+
+  /* Fonts */
+  --font-sans:
+    "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+    "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-serif:
+    "Playfair Display", ui-serif, Georgia, Cambria, "Times New Roman", Times,
+    serif;
+  --font-mono:
+    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+
+  /* Radii */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.06);
+  --shadow-md:
+    0 4px 10px -2px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.06);
+  --shadow-lg: 0 12px 24px -6px rgb(0 0 0 / 0.18);
+
+  /* Spacing additions (keeps Tailwind’s defaults, just extends) */
+  --spacing-4.5: 1.125rem; /* 18px */
+  --spacing-13: 3.25rem; /* 52px */
+  --spacing-15: 3.75rem; /* 60px */
+
+  /* Timing & easing */
+  --duration-fast: 150ms;
+  --duration-std: 250ms;
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Type scale (optional extra sizes) */
+  --text-2xs: 0.7rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+}
+
+/* Base text styles */
+@layer base {
+  html {
+    font-family: var(--font-sans);
+  }
+  h1,
+  h2,
+  h3 {
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  h1 {
+    font-size: clamp(2rem, 2vw + 1.5rem, 3rem);
+    line-height: 1.1;
+  }
+  h2 {
+    font-size: clamp(1.5rem, 1.5vw + 1rem, 2.25rem);
+    line-height: 1.15;
+  }
+  h3 {
+    font-size: clamp(1.25rem, 1vw + 0.9rem, 1.75rem);
+    line-height: 1.2;
+  }
+  code,
+  pre,
+  kbd,
+  samp {
+    font-family: var(--font-mono);
+  }
 }
 
 /* Light values (runtime variables you’ll flip at runtime) */
