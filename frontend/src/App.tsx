@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function ThemeDemo() {
+  const { t } = useTranslation();
   const [dark, setDark] = useState(false);
 
   const toggleTheme = () => {
@@ -12,9 +14,7 @@ export default function ThemeDemo() {
     <div className="min-h-screen bg-surface text-text flex flex-col items-center justify-center transition-colors duration-std ease-smooth px-6 py-15 font-sans">
       {/* Card container */}
       <div className="w-full max-w-2xl bg-surface border border-border rounded-xl shadow-md p-8 transition-all duration-std ease-smooth">
-        <h1 className="text-4xl font-bold mb-2 tracking-tight">
-          Tailwind Theme Demo
-        </h1>
+        <h1 className="text-4xl font-bold mb-2 tracking-tight">{t("title")}</h1>
         <p className="text-text-muted mb-8">
           A showcase of your design tokens — colors, fonts, borders, radii,
           shadows, and transitions.
