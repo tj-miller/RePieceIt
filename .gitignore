@@ -1,1 +1,5 @@
 frontend/test-results/.last-run.json
+.env
+.env.*
+backend/.env
+frontend/.env

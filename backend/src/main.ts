@@ -1,9 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import type { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
+import { ApiResponseInterceptor } from './api-response.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.setGlobalPrefix('api');
+  app.useGlobalInterceptors(new ApiResponseInterceptor());
 
   const allowedOrigins = (process.env.CLIENT_ORIGINS ?? 'http://localhost:5173')
     .split(',')

@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import type { AccountResponse } from '@shared/contracts/accounts';
 
-@Controller('api/accounts')
+@Controller('accounts')
 export class AccountsController {
   @Get()
   findAll(): AccountResponse[] {

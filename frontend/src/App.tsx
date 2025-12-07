@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { listAccounts } from './services/accounts.service'
 import type { AccountResponse } from '@shared/contracts/accounts'
+import { UsersList } from './components/UsersList'
 
 export default function ThemeDemo() {
   const { t } = useTranslation()
@@ -76,6 +77,9 @@ export default function ThemeDemo() {
             </div>
           )}
         </div>
+
+        <p>Demo: data coming from NestJS + Prisma</p>
+        <UsersList />
 
         {/* Buttons row */}
         <div className="mb-10 flex flex-wrap gap-3">
