@@ -1,100 +1,155 @@
-import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { listAccounts } from './services/accounts.service'
+import type { AccountResponse } from '@shared/contracts/accounts'
 
 export default function ThemeDemo() {
-  const { t } = useTranslation();
-  const [dark, setDark] = useState(false);
+  const { t } = useTranslation()
+  const [dark, setDark] = useState(false)
+
+  const [accounts, setAccounts] = useState<AccountResponse[] | null>(null)
+  const [apiStatus, setApiStatus] = useState<'idle' | 'loading' | 'ok' | 'error'>('idle')
 
   const toggleTheme = () => {
-    document.documentElement.classList.toggle("dark");
-    setDark(!dark);
-  };
+    document.documentElement.classList.toggle('dark')
+    setDark(!dark)
+  }
+
+  useEffect(() => {
+    setApiStatus('loading')
+    listAccounts()
+      .then((data) => {
+        setAccounts(data)
+        setApiStatus('ok')
+      })
+      .catch((err) => {
+        console.error('Failed to load accounts', err)
+        setApiStatus('error')
+      })
+  }, [])
 
   return (
-    <div className="min-h-screen bg-surface text-text flex flex-col items-center justify-center transition-colors duration-std ease-smooth px-6 py-15 font-sans">
+    <div className="bg-surface text-text duration-std ease-smooth flex min-h-screen flex-col items-center justify-center px-6 py-15 font-sans transition-colors">
       {/* Card container */}
-      <div className="w-full max-w-2xl bg-surface border border-border rounded-xl shadow-md p-8 transition-all duration-std ease-smooth">
-        <h1 className="text-4xl font-bold mb-2 tracking-tight">{t("title")}</h1>
+      <div className="bg-surface border-border duration-std ease-smooth w-full max-w-2xl rounded-xl border p-8 shadow-md transition-all">
+        <h1 className="mb-2 text-4xl font-bold tracking-tight">{t('title')}</h1>
         <p className="text-text-muted mb-8">
-          A showcase of your design tokens — colors, fonts, borders, radii,
-          shadows, and transitions.
+          A showcase of your design tokens — colors, fonts, borders, radii, shadows, and
+          transitions.
         </p>
 
+        {/* 🔗 Backend status using shared AccountResponse */}
+        <div className="border-border bg-surface/60 mb-8 rounded-md border p-4 text-sm">
+          <div className="mb-2 flex items-center justify-between">
+            <span className="font-medium">API status</span>
+            <span className="text-text-muted">
+              {apiStatus === 'idle' && 'Idle'}
+              {apiStatus === 'loading' && 'Checking…'}
+              {apiStatus === 'ok' && 'Connected'}
+              {apiStatus === 'error' && 'Error'}
+            </span>
+          </div>
+
+          {apiStatus === 'error' && (
+            <p className="text-error text-xs">
+              Could not reach backend. Is the Nest server running?
+            </p>
+          )}
+
+          {apiStatus === 'ok' && accounts && (
+            <div className="mt-2 space-y-1">
+              <p className="text-text-muted text-xs">
+                Demo account(s) loaded from <code>/api/accounts</code>:
+              </p>
+              <ul className="space-y-1">
+                {accounts.map((acct) => (
+                  <li
+                    key={acct.id}
+                    className="border-border bg-surface/80 flex items-center justify-between rounded-md border px-3 py-2 text-xs"
+                  >
+                    <span className="font-mono">#{acct.id}</span>
+                    <span>{acct.username}</span>
+                    <span className="text-text-muted">{acct.email}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+
         {/* Buttons row */}
-        <div className="flex flex-wrap gap-3 mb-10">
-          <button className="bg-primary text-white px-4 py-2 rounded-md shadow-sm hover:bg-primary/85 transition-colors duration-fast ease-smooth">
+        <div className="mb-10 flex flex-wrap gap-3">
+          <button className="bg-primary hover:bg-primary/85 duration-fast ease-smooth rounded-md px-4 py-2 text-white shadow-sm transition-colors">
             Primary
           </button>
-          <button className="bg-accent text-white px-4 py-2 rounded-md shadow-sm hover:bg-accent/85 transition-colors duration-fast ease-smooth">
+          <button className="bg-accent hover:bg-accent/85 duration-fast ease-smooth rounded-md px-4 py-2 text-white shadow-sm transition-colors">
             Accent
           </button>
-          <button className="bg-success text-white px-4 py-2 rounded-md shadow-sm hover:bg-success/85 transition-colors duration-fast ease-smooth">
+          <button className="bg-success hover:bg-success/85 duration-fast ease-smooth rounded-md px-4 py-2 text-white shadow-sm transition-colors">
             Success
           </button>
-          <button className="bg-warn text-white px-4 py-2 rounded-md shadow-sm hover:bg-warn/85 transition-colors duration-fast ease-smooth">
+          <button className="bg-warn hover:bg-warn/85 duration-fast ease-smooth rounded-md px-4 py-2 text-white shadow-sm transition-colors">
             Warning
           </button>
-          <button className="bg-error text-white px-4 py-2 rounded-md shadow-sm hover:bg-error/85 transition-colors duration-fast ease-smooth">
+          <button className="bg-error hover:bg-error/85 duration-fast ease-smooth rounded-md px-4 py-2 text-white shadow-sm transition-colors">
             Error
           </button>
         </div>
 
         {/* Border & radius showcase */}
-        <div className="grid grid-cols-3 gap-6 mb-10">
-          <div className="h-16 border border-border rounded-sm shadow-sm flex items-center justify-center text-xs text-text-muted">
+        <div className="mb-10 grid grid-cols-3 gap-6">
+          <div className="border-border text-text-muted flex h-16 items-center justify-center rounded-sm border text-xs shadow-sm">
             rounded-sm
           </div>
-          <div className="h-16 border border-border rounded-lg shadow-md flex items-center justify-center text-xs text-text-muted">
+          <div className="border-border text-text-muted flex h-16 items-center justify-center rounded-lg border text-xs shadow-md">
             rounded-lg
           </div>
-          <div className="h-16 border border-border rounded-2xl shadow-lg flex items-center justify-center text-xs text-text-muted">
+          <div className="border-border text-text-muted flex h-16 items-center justify-center rounded-2xl border text-xs shadow-lg">
             rounded-2xl
           </div>
         </div>
 
         {/* Font demo */}
-        <div className="space-y-3 mb-10">
+        <div className="mb-10 space-y-3">
           <p className="text-base">
             This paragraph uses <strong>Inter</strong>, your primary sans font.
           </p>
           <p className="font-mono text-sm">
-            And this line uses <strong>JetBrains Mono</strong> for code or UI
-            elements.
+            And this line uses <strong>JetBrains Mono</strong> for code or UI elements.
           </p>
-          <div className="border border-border rounded-md p-3 mt-2 bg-surface/50">
+          <div className="border-border bg-surface/50 mt-2 rounded-md border p-3">
             <code className="font-mono text-xs">
-              const toggleTheme = () =&gt;
-              document.documentElement.classList.toggle("dark");
+              const toggleTheme = () =&gt; document.documentElement.classList.toggle("dark");
             </code>
           </div>
         </div>
 
         {/* Shadow depth examples */}
-        <div className="flex gap-6 mb-10">
-          <div className="h-12 w-20 rounded-md bg-surface border border-border shadow-sm flex items-center justify-center text-[10px] text-text-muted">
+        <div className="mb-10 flex gap-6">
+          <div className="bg-surface border-border text-text-muted flex h-12 w-20 items-center justify-center rounded-md border text-[10px] shadow-sm">
             shadow-sm
           </div>
-          <div className="h-12 w-20 rounded-md bg-surface border border-border shadow-md flex items-center justify-center text-[10px] text-text-muted">
+          <div className="bg-surface border-border text-text-muted flex h-12 w-20 items-center justify-center rounded-md border text-[10px] shadow-md">
             shadow-md
           </div>
-          <div className="h-12 w-20 rounded-md bg-surface border border-border shadow-lg flex items-center justify-center text-[10px] text-text-muted">
+          <div className="bg-surface border-border text-text-muted flex h-12 w-20 items-center justify-center rounded-md border text-[10px] shadow-lg">
             shadow-lg
           </div>
         </div>
 
         {/* Theme toggle */}
-        <div className="flex items-center justify-between border-t border-border pt-6">
+        <div className="border-border flex items-center justify-between border-t pt-6">
           <p className="text-text-muted">
-            The current theme is <strong>{dark ? "Dark" : "Light"}</strong>.
+            The current theme is <strong>{dark ? 'Dark' : 'Light'}</strong>.
           </p>
           <button
             onClick={toggleTheme}
-            className="px-4 py-2 border border-border rounded-md font-medium hover:bg-surface/80 transition-colors duration-fast ease-smooth"
+            className="border-border hover:bg-surface/80 duration-fast ease-smooth rounded-md border px-4 py-2 font-medium transition-colors"
           >
             Toggle Theme
           </button>
         </div>
       </div>
     </div>
-  );
+  )
 }
