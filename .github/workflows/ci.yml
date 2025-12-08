@@ -98,6 +98,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup Node
+        # you can add cache-dependency-path here too if you want
         uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -122,10 +123,36 @@ jobs:
         working-directory: backend
         run: npm run dev &
 
+      - name: Wait for backend to be ready
+        run: |
+          for i in {1..30}; do
+            echo "Waiting for backend (attempt $i)..."
+            if curl -fsS http://localhost:3000/api/ping > /dev/null; then
+              echo "Backend is up!"
+              break
+            fi
+            sleep 2
+          done
+
       # ---------- Frontend + Playwright ----------
       - name: Install frontend deps
         working-directory: frontend
         run: npm ci
+
+      - name: Start frontend
+        working-directory: frontend
+        run: npm run dev -- --host 0.0.0.0 --port 5173 &
+
+      - name: Wait for frontend to be ready
+        run: |
+          for i in {1..30}; do
+            echo "Waiting for frontend (attempt $i)..."
+            if curl -fsS http://localhost:5173 > /dev/null; then
+              echo "Frontend is up!"
+              break
+            fi
+            sleep 2
+          done
 
       - name: Install Playwright browsers
         working-directory: frontend
