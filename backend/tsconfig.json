@@ -27,6 +27,6 @@
     "types": ["node", "jest"],
     "strict": true
   },
-  "include": ["src/**/*", "test/**/*.ts", "../shared/**/*"],
+  "include": ["src/**/*", "test/**/*.ts", "prisma.config.ts", "prisma/**/*.ts", "../shared/**/*"],
   "exclude": ["node_modules", "dist"]
 }
