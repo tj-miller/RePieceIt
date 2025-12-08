@@ -1,6 +1,6 @@
 # 📘 RePieceIt — Development Environment Guide
 
-This project is a full-stack monorepo using:
+This project is a full-stack monorepo containing:
 
 - **Vite + React** (frontend)
 - **NestJS** (backend)
