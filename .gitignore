@@ -3,3 +3,4 @@ frontend/test-results/.last-run.json
 .env.*
 backend/.env
 frontend/.env
+node_modules/

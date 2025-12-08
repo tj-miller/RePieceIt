@@ -101,7 +101,7 @@ CLIENT_ORIGINS=http://localhost:5173
 Prisma config:
 
 ```ts
-import "dotenv/config";
+import 'dotenv/config';
 ```
 
 This ensures Prisma CLI commands pick up environment variables.

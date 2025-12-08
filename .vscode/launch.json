@@ -6,13 +6,7 @@
       "request": "launch",
       "name": "NestJS Debug",
       "runtimeExecutable": "node",
-      "runtimeArgs": [
-        "--inspect",
-        "-r",
-        "ts-node/register",
-        "-r",
-        "tsconfig-paths/register"
-      ],
+      "runtimeArgs": ["--inspect", "-r", "ts-node/register", "-r", "tsconfig-paths/register"],
       "args": ["src/main.ts"],
       "cwd": "${workspaceFolder}/backend",
       "envFile": "${workspaceFolder}/backend/.env",

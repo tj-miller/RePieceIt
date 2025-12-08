@@ -1,0 +1,18 @@
+{
+  // Use Prettier to format
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // Format on save
+  "editor.formatOnSave": true,
+
+  // Tell VS Code EXACTLY which Prettier to use
+  "prettier.prettierPath": "./node_modules/prettier",
+
+  // Tell VS Code EXACTLY where your config lives
+  "prettier.configPath": ".prettierrc",
+
+  // Optional: prevent ESLint from battling Prettier
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  }
+}
