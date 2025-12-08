@@ -1,47 +1,47 @@
-import { useEffect, useState } from 'react'
-import { listUsers } from '../services/users.service'
-import type { UserResponse } from '@shared/contracts/users'
+import { useEffect, useState } from 'react';
+import { listUsers } from '../services/users.service';
+import type { UserResponse } from '@shared/contracts/users';
 
 export function UsersList() {
-  const [users, setUsers] = useState<UserResponse[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [users, setUsers] = useState<UserResponse[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    let isMounted = true
+    let isMounted = true;
 
     async function fetchUsers() {
       try {
-        setLoading(true)
-        setError(null)
+        setLoading(true);
+        setError(null);
 
-        const data = await listUsers()
+        const data = await listUsers();
 
         if (isMounted) {
-          setUsers(data)
+          setUsers(data);
         }
       } catch (err) {
-        console.error(err)
+        console.error(err);
         if (isMounted) {
-          setError('Failed to load users')
+          setError('Failed to load users');
         }
       } finally {
         if (isMounted) {
-          setLoading(false)
+          setLoading(false);
         }
       }
     }
 
-    fetchUsers()
+    fetchUsers();
 
     return () => {
-      isMounted = false
-    }
-  }, [])
+      isMounted = false;
+    };
+  }, []);
 
-  if (loading) return <p>Loading users...</p>
-  if (error) return <p>{error}</p>
-  if (users.length === 0) return <p>No users found.</p>
+  if (loading) return <p>Loading users...</p>;
+  if (error) return <p>{error}</p>;
+  if (users.length === 0) return <p>No users found.</p>;
 
   return (
     <div>
@@ -55,5 +55,5 @@ export function UsersList() {
         ))}
       </ul>
     </div>
-  )
+  );
 }

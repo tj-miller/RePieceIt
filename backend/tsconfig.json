@@ -28,8 +28,9 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
 
-    "types": ["node"]
+    "types": ["node", "jest"],
+    "strict": true
   },
   "include": ["src/**/*", "../shared/**/*"],
-  "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
+  "exclude": ["node_modules", "dist", "test"]
 }

@@ -1,0 +1,129 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  unit-and-lint:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: repieceit
+          POSTGRES_PASSWORD: repieceit
+          POSTGRES_DB: repieceit_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U repieceit"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      DATABASE_URL: postgres://repieceit:repieceit@localhost:5432/repieceit_test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+
+      # ---------- Backend ----------
+      - name: Install backend deps
+        working-directory: backend
+        run: npm ci
+
+      - name: Backend lint
+        working-directory: backend
+        run: npm run lint
+
+      - name: Migrate test DB
+        working-directory: backend
+        run: npx prisma migrate deploy
+
+      - name: Backend unit tests
+        working-directory: backend
+        run: npm test
+
+      # ---------- Frontend ----------
+      - name: Install frontend deps
+        working-directory: frontend
+        run: npm ci
+
+      - name: Frontend lint
+        working-directory: frontend
+        run: npm run lint
+
+      - name: Frontend unit tests
+        working-directory: frontend
+        run: npm test
+
+  e2e:
+    runs-on: ubuntu-latest
+    needs: unit-and-lint
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: repieceit
+          POSTGRES_PASSWORD: repieceit
+          POSTGRES_DB: repieceit_e2e
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U repieceit"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      DATABASE_URL: postgres://repieceit:repieceit@localhost:5432/repieceit_e2e
+      VITE_API_URL: http://localhost:3000/api
+      PLAYWRIGHT_BASE_URL: http://localhost:5173
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+
+      # ---------- Backend for e2e ----------
+      - name: Install backend deps
+        working-directory: backend
+        run: npm ci
+
+      - name: Migrate + seed e2e DB
+        working-directory: backend
+        run: |
+          npx prisma migrate deploy
+          npx prisma db seed
+
+      - name: Start backend
+        working-directory: backend
+        run: npm run dev &
+
+      # ---------- Frontend + Playwright ----------
+      - name: Install frontend deps
+        working-directory: frontend
+        run: npm ci
+
+      - name: Install Playwright browsers
+        working-directory: frontend
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        working-directory: frontend
+        run: npx playwright test

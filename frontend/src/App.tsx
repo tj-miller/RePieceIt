@@ -1,33 +1,33 @@
-import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { listAccounts } from './services/accounts.service'
-import type { AccountResponse } from '@shared/contracts/accounts'
-import { UsersList } from './components/UsersList'
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { listAccounts } from './services/accounts.service';
+import type { AccountResponse } from '@shared/contracts/accounts';
+import { UsersList } from './components/UsersList';
 
 export default function ThemeDemo() {
-  const { t } = useTranslation()
-  const [dark, setDark] = useState(false)
+  const { t } = useTranslation();
+  const [dark, setDark] = useState(false);
 
-  const [accounts, setAccounts] = useState<AccountResponse[] | null>(null)
-  const [apiStatus, setApiStatus] = useState<'idle' | 'loading' | 'ok' | 'error'>('idle')
+  const [accounts, setAccounts] = useState<AccountResponse[] | null>(null);
+  const [apiStatus, setApiStatus] = useState<'idle' | 'loading' | 'ok' | 'error'>('idle');
 
   const toggleTheme = () => {
-    document.documentElement.classList.toggle('dark')
-    setDark(!dark)
-  }
+    document.documentElement.classList.toggle('dark');
+    setDark(!dark);
+  };
 
   useEffect(() => {
-    setApiStatus('loading')
+    setApiStatus('loading');
     listAccounts()
       .then((data) => {
-        setAccounts(data)
-        setApiStatus('ok')
+        setAccounts(data);
+        setApiStatus('ok');
       })
       .catch((err) => {
-        console.error('Failed to load accounts', err)
-        setApiStatus('error')
-      })
-  }, [])
+        console.error('Failed to load accounts', err);
+        setApiStatus('error');
+      });
+  }, []);
 
   return (
     <div className="bg-surface text-text duration-std ease-smooth flex min-h-screen flex-col items-center justify-center px-6 py-15 font-sans transition-colors">
@@ -155,5 +155,5 @@ export default function ThemeDemo() {
         </div>
       </div>
     </div>
-  )
+  );
 }

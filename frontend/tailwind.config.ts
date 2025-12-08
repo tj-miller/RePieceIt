@@ -1,6 +1,6 @@
 // tailwind.config.ts
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss';
 
 export default {
-  darkMode: "class",
+  darkMode: 'class',
 } satisfies Config;

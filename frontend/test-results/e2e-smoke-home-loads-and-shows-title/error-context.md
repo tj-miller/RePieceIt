@@ -1,0 +1,44 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+    - heading "Tailwind Theme Demo" [level=1] [ref=e5]
+    - paragraph [ref=e6]: A showcase of your design tokens — colors, fonts, borders, radii, shadows, and transitions.
+    - generic [ref=e7]:
+        - generic [ref=e8]:
+            - generic [ref=e9]: API status
+            - generic [ref=e10]: Error
+        - paragraph [ref=e11]: Could not reach backend. Is the Nest server running?
+    - paragraph [ref=e12]: 'Demo: data coming from NestJS + Prisma'
+    - paragraph [ref=e13]: Failed to load users
+    - generic [ref=e14]:
+        - button "Primary" [ref=e15]
+        - button "Accent" [ref=e16]
+        - button "Success" [ref=e17]
+        - button "Warning" [ref=e18]
+        - button "Error" [ref=e19]
+    - generic [ref=e20]:
+        - generic [ref=e21]: rounded-sm
+        - generic [ref=e22]: rounded-lg
+        - generic [ref=e23]: rounded-2xl
+    - generic [ref=e24]:
+        - paragraph [ref=e25]:
+            - text: This paragraph uses
+            - strong [ref=e26]: Inter
+            - text: ', your primary sans font.'
+        - paragraph [ref=e27]:
+            - text: And this line uses
+            - strong [ref=e28]: JetBrains Mono
+            - text: for code or UI elements.
+        - code [ref=e30]: const toggleTheme = () => document.documentElement.classList.toggle("dark");
+    - generic [ref=e31]:
+        - generic [ref=e32]: shadow-sm
+        - generic [ref=e33]: shadow-md
+        - generic [ref=e34]: shadow-lg
+    - generic [ref=e35]:
+        - paragraph [ref=e36]:
+            - text: The current theme is
+            - strong [ref=e37]: Light
+            - text: .
+        - button "Toggle Theme" [ref=e38]
+```
